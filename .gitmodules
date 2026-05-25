@@ -1,9 +1,9 @@
-[submodule "ru-scraper"]
-    path = ru-scraper
-    url = https://github.com/gxlpes/ru-scraper
-[submodule "ru-whatsapp"]
-    path = ru-whatsapp
-    url = https://github.com/gxlpes/ru-whatsapp
-[submodule "ru-counter"]
-	path = ru-counter
-	url = https://github.com/guimox/ru-counter.git
+[submodule "ru-menu-scraper"]
+	path = ru-menu-scraper
+	url = https://github.com/ghlps/ru-menu-scraper
+[submodule "ru-menu-counter"]
+	path = ru-menu-counter
+	url = https://github.com/ghlps/ru-menu-counter
+[submodule "ru-menu-whatsapp"]
+	path = ru-menu-whatsapp
+	url = https://github.com/ghlps/ru-menu-whatsapp
