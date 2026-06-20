@@ -1,0 +1,34 @@
+name: Scheduled Submodule Update
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout parent repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
+
+      - name: Pull latest submodule commits
+        run: |
+          git submodule update --init --recursive --remote --merge
+
+      - name: Commit and Push changes
+        run: |
+          # Check if there are actually any changes to commit
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore: automated submodule sync to latest repos"
+            git push
+          else
+            echo "No changes detected. Everything is up to date!"
+          fi
