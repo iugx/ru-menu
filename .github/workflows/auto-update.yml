@@ -13,22 +13,29 @@ jobs:
       - name: Checkout parent repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           submodules: true
+          fetch-depth: 0
 
       - name: Pull latest submodule commits
         run: |
-          git submodule update --init --recursive --remote --merge
+          git submodule foreach '
+            git fetch origin
+            git checkout $(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
+            git reset --hard origin/$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
+          '
 
-      - name: Commit and Push changes
+      - name: Commit and push if changed
         run: |
-          # Check if there are actually any changes to commit
-          if [ -n "$(git status --porcelain)" ]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "chore: automated submodule sync to latest repos"
-            git push
-          else
-            echo "No changes detected. Everything is up to date!"
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+
+          if git diff --cached --quiet; then
+            echo "✅ Submodules already up to date — nothing to commit."
+            exit 0
           fi
+
+          git commit -m "chore: automated submodule sync to latest repos"
+          git push
