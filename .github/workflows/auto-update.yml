@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout parent repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.PAT_TOKEN }}
           submodules: true
@@ -33,7 +33,7 @@ jobs:
           git add .
 
           if git diff --cached --quiet; then
-            echo "✅ Submodules already up to date — nothing to commit."
+            echo "Submodules already up to date — nothing to commit."
             exit 0
           fi
 
