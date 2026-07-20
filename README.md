@@ -1,6 +1,6 @@
 # RU Menu Project
 
-A Java-based web scraper designed to retrieve and send the daily menu from the Restaurante Universitário (RU) of the Federal University of Paraná (UFPR) to anyone interested.
+A Go-based web scraper designed to retrieve and send the daily menu from the Restaurante Universitário (RU) of the Federal University of Paraná (UFPR) to anyone interested.
 
 ## Why?
 
@@ -25,11 +25,10 @@ Last updated at 15/07/2026 16:41:15 UTC
 
 ## Tech used
 
-- **Java 17**: The core programming language used for the scraper.
-- **Spring Cloud Function**: A framework to create stand-alone, production-grade Spring-based applications.
-- **JSoup:** A Java library for parsing HTML, used here for web scraping.
-- **Node.js**: Used to send messages via WhatsApp.
-- **Baileys:** A third-party library that enables sending WhatsApp messages to channels.
+- **Go**: The core programming language used for the scraper, counter, and sender services.
+- **Colly**: A Go scraping framework used for web scraping with powerful parsing capabilities.
+- **GoQuery**: A Go library for parsing and manipulating HTML documents.
+- **whatsmeow**: A Go library that provides WhatsApp Business API connectivity for sending messages and managing newsletters.
 
 ## Data flow
 
@@ -60,7 +59,7 @@ The project uses AWS cloud services to provide multiple services, making it easi
 
 Each function has a buildspec file that provides CodeBuild commands for the correct build and deployment. Functions are deployed to Lambda as zip files.
 
-Node.js 17 and Java 17 are used.
+Go 1.21 is used for all services, compiled to Linux/ARM64 architecture for optimal performance on Lambda.
 
 <img src="https://github.com/user-attachments/assets/2d1822c6-6fd5-4585-92f8-65928caeb56e" width="300" />
 
@@ -68,7 +67,7 @@ Node.js 17 and Java 17 are used.
 
 The happy path of the data pipeline is `website` -> `scraper` -> `sender` -> `WhatsApp`.
 
-The image below is available at this [link](https://gxlpes.github.io/ru-menu/website-example/ru-website-pol-1208-0908.html), where I saved an example.
+The image below is available at this [link](https://iugx.github.io/ru-menu/website-example/ru-website-pol-1208-0908.html), where I saved an example.
 
 ![Menu from Politécnico](doc/website-politecnico.png)
 
